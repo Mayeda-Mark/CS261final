@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script type="text/javascript" src="mortgage.js"></script>
+  <link rel="stylesheet" type="text/css" href="mortgage.css">
+  <title>My App</title>
+</head>
+<body onload="select();">
+  <div class="dropdown">
+    <button onclick="myFunction();" class="dropbtn">Menu</button>Title
+    <div id="myDropdown" class="dropdown-content">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+  <div id="form">
+   	<form id="info">
+   		Principle: <input style="border: outset;" type="text" id="principle" onchange="DPAmntChange();" size="8">
+      Length: <select style="border: outset;" id="length">
+        <option value="0">- Select -</option>
+        <option value="15">15 Year</option>
+        <option value="30">30 Year</option>
+      </select>
+      <br>
+      Down Payment Amount: <input id="DPAmnt" style="border: outset;" type="text" onchange="DPPrecentChange();" size="5">
+      <br>
+      Down Payment Percent: <input id="DPPcnt" style="border: outset;" type="text" onchange="DPAmntChange();" size="4">
+      <br>
+   		<div id="stateSelect"></div>
+      Interest: <input type="text" style="border: outset;" id="interest" size="4">
+      <span id="monthly">Monthly Payment:</span>
+      <br>
+      <button type="button" class="btn" onclick="calculate();">Calculate Monthly Payment</button>
+      <button type="button" class="btn" onclick="makeTable();">Display Payment Table</button>
+    </form> 
+  </div>
+  <div id="tableFill">Table</div>
+</body>
+</html>
