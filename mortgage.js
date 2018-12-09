@@ -1,9 +1,16 @@
+var isMonthly = false;
+
+function resetMonthly() {
+  isMonthly = false;
+  document.getElementById.innerHTML = "";
+}
+
 function select() {
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
     	if (this.readyState == 4 && this.status == 200) {
        		var parse = JSON.parse(xhttp.responseText);
-       		var state = "State: <select id=\"stateInfo\" style=\"border: outset;\" onchange=\"stateInsurance();\"><option value = \"\">- Select -</option>"
+       		var state = "State: <select id=\"stateInfo\" style=\"border: outset;\" onchange=\"stateInsurance(); resetMonthly();\"><option value = \"\">- Select -</option>"
        		for(var i = 0; i < parse.length; i++) {
        			state += "<option value= \"" + parse[i].rate + "\">" + parse[i].state + "</option>";
        		}
@@ -24,7 +31,9 @@ function DPPrecentChange() {
   if (document.getElementById('principle')) {
     var amnt = document.getElementById('DPAmnt').value;
     var principle = document.getElementById('principle').value;
-    document.getElementById('DPPcnt').value = (amnt / principle) * 100;
+    var x = (amnt / principle) * 100;
+    var n = x.toFixed(3);
+    document.getElementById('DPPcnt').value = n;
   }
 }
 
@@ -39,7 +48,7 @@ function DPAmntChange() {
 
 function makeTable() {
 
-  var table = "<button type='button' onclick='closeTable();'>Close</button><table><tr><th>Period</th><th>Beginning Principle</th><th>Interest Paid</th><th>Principle Paid</th><th>Remaining</th></tr>";
+  var table = "<button type='button' class='btn' onclick='closeTable();'>Close</button><table><tr><th>Period</th><th>Beginning Principle</th><th>Interest Paid</th><th>Principle Paid</th><th>Remaining</th></tr>";
   var principle = parseFloat(document.getElementById('principle').value);
   var interest = parseFloat(document.getElementById('interest').value) / 100;
   var downPayment = parseFloat(document.getElementById('DPAmnt').value);
@@ -88,7 +97,15 @@ function calculate() {
   var innerParenth =  Math.pow((1 + mInterest), periods);
   var monthly = (remaining * ((mInterest * innerParenth) / (innerParenth - 1)));
     var b = monthly.toFixed(2);
-  document.getElementById('monthly').innerHTML = "Monthly Payment: $" + b;
+
+  if (!isMonthly) {
+    document.getElementById('monthly').innerHTML = "";
+    var para = document.createElement("P");
+    var text = document.createTextNode("Monthly Payment: $" + b);
+    para.appendChild(text);
+    document.getElementById('monthly').appendChild(para);
+    isMonthly = true;
+  }
 }
 
 function myFunction() {
