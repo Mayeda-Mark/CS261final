@@ -1,5 +1,26 @@
 var isMonthly = false;
 
+function header() {
+  var text = "<div class='dropdown'><button onclick='myFunction();' class='dropbtn'>Menu</button><span class='bar'>Mortgage-Tron 5000</span><div id='myDropdown' class='dropdown-content'><a href='mortgage.html'>Home</a><a href='aboutMortgage.html'>About Mortgages</a><a href='aboutApp.html'>About the App</a><a href='disclaimer.html'>Disclaimer</a></div></div>"
+  document.getElementById('header').innerHTML = text;
+}
+
+function storeLocal() {
+  localStorage.setItem("principle", document.getElementById("principle").value);
+  localStorage.setItem("length", document.getElementById("length").value);
+  localStorage.setItem("DPAmnt", document.getElementById("DPAmnt").value);
+  localStorage.setItem("DPPcnt", document.getElementById("DPPcnt").value);
+  localStorage.setItem("interest", document.getElementById("interest").value);
+}
+
+function getLocal() {
+  document.getElementById("principle").value = localStorage.getItem("principle");
+  document.getElementById("length").value = localStorage.getItem("length");
+  document.getElementById("DPAmnt").value = localStorage.getItem("DPAmnt");
+  document.getElementById("DPPcnt").value = localStorage.getItem("DPPcnt");
+  document.getElementById("interest").value = localStorage.getItem("interest");
+}
+
 function resetMonthly() {
   isMonthly = false;
   document.getElementById.innerHTML = "";
@@ -10,7 +31,7 @@ function select() {
 	xhttp.onreadystatechange = function() {
     	if (this.readyState == 4 && this.status == 200) {
        		var parse = JSON.parse(xhttp.responseText);
-       		var state = "State: <select id=\"stateInfo\" style=\"border: outset;\" onchange=\"stateInsurance(); resetMonthly();\"><option value = \"\">- Select -</option>"
+       		var state = "State: <select id=\"stateInfo\" style=\"border: outset;\" onchange=\"stateInsurance(); resetMonthly();\" \"storeLocal();\"><option value = \"\">- Select -</option>"
        		for(var i = 0; i < parse.length; i++) {
        			state += "<option value= \"" + parse[i].rate + "\">" + parse[i].state + "</option>";
        		}
@@ -42,7 +63,9 @@ function DPAmntChange() {
   var principle = document.getElementById('principle').value;
     var placeholder = document.getElementById('DPPcnt').value;
     var pcnt = document.getElementById('DPPcnt').value * .001;
-    document.getElementById('DPAmnt').value = principle * pcnt;
+    var x = principle * pcnt;
+    var y = x.toFixed(2);
+    document.getElementById('DPAmnt').value = y;
   }
 }
 
@@ -84,6 +107,11 @@ function makeTable() {
 function closeTable() {
   document.getElementById('tableFill').style.visibility = 'hidden';
   document.getElementById('tableFill').style.opacity = 0;
+  setTimeout(eraseTable, 1000);
+}
+
+function eraseTable() {
+  document.getElementById('tableFill').innerHTML = "";
 }
 
 function calculate() {

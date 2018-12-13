@@ -71,3 +71,9 @@ th {
 #form {
 	font-size: 11px;
 }
+
+h3 {
+	background-color: #3498DB;
+    color: white;
+    padding: 12px;
+}
